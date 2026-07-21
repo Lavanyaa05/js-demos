@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>To-Do List</title>
+
+  <link rel="stylesheet" href="../styles.css">
+</head>
+
+<body>
+
+  <main class="todo-page">
+
+    <a class="back-link" href="../index.html">
+      ← Back
+    </a>
+
+    <section class="todo-card">
+
+      <h1>My Tasks</h1>
+
+      <p class="todo-description">
+        Add a task and keep track of what you need to complete.
+      </p>
+
+      <form id="taskForm" class="task-form">
+
+        <input
+          type="text"
+          id="taskInput"
+          placeholder="What do you need to do?"
+          maxlength="60"
+          autocomplete="off"
+        >
+
+        <button type="submit" class="add-task-button">
+          Add
+        </button>
+
+      </form>
+
+      <p id="errorMessage" class="error-message"></p>
+
+      <div class="task-summary">
+
+        <p>
+          <span id="remainingCount">0</span> tasks remaining
+        </p>
+
+        <button
+          type="button"
+          id="clearCompletedButton"
+          class="clear-button"
+        >
+          Clear completed
+        </button>
+
+      </div>
+
+      <p id="emptyMessage" class="empty-message">
+        No tasks yet.
+      </p>
+
+      <ul id="taskList" class="task-list"></ul>
+
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
