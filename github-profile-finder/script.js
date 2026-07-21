@@ -19,14 +19,12 @@ searchForm.addEventListener("submit", function (event) {
   fetch("https://api.github.com/users/" + username)
     .then(function (response) {
       if (!response.ok) {
-        throw new Error("User not found.");
+        throw new Error("GitHub user not found.");
       }
 
       return response.json();
     })
     .then(function (user) {
-      console.log(user);
-
       showProfile(user);
       profileMessage.textContent = "Profile loaded.";
     })
@@ -39,50 +37,60 @@ searchForm.addEventListener("submit", function (event) {
 });
 
 function showProfile(user) {
-  const profileImage = document.createElement("img");
-  profileImage.src = user.avatar_url;
-  profileImage.alt = user.login + " profile picture";
-  profileImage.width = 120;
-  profileImage.height = 120;
-  profileImage.style.borderRadius = "50%";
+  profileResult.innerHTML = "";
 
-  const profileName = document.createElement("h2");
+  const image = document.createElement("img");
+  image.src = user.avatar_url;
+  image.alt = user.login + " profile picture";
+  image.width = 120;
+  image.height = 120;
+  image.style.borderRadius = "50%";
+
+  const name = document.createElement("h2");
 
   if (user.name) {
-    profileName.textContent = user.name;
+    name.textContent = user.name;
   } else {
-    profileName.textContent = user.login;
+    name.textContent = user.login;
   }
 
-  const profileUsername = document.createElement("p");
-  profileUsername.textContent = "@" + user.login;
+  const username = document.createElement("p");
+  username.textContent = "@" + user.login;
 
-  const profileBio = document.createElement("p");
+  const bio = document.createElement("p");
 
   if (user.bio) {
-    profileBio.textContent = user.bio;
+    bio.textContent = user.bio;
   } else {
-    profileBio.textContent = "No bio available.";
+    bio.textContent = "No bio available.";
   }
 
-  const profileStats = document.createElement("div");
+  const location = document.createElement("p");
+  location.textContent =
+    "Location: " + (user.location || "Not provided");
 
-  const repoCount = document.createElement("p");
-  repoCount.textContent = "Public repositories: " + user.public_repos;
+  const repositories = document.createElement("p");
+  repositories.textContent =
+    "Public repositories: " + user.public_repos;
 
-  const followerCount = document.createElement("p");
-  followerCount.textContent = "Followers: " + user.followers;
+  const followers = document.createElement("p");
+  followers.textContent = "Followers: " + user.followers;
 
-  const followingCount = document.createElement("p");
-  followingCount.textContent = "Following: " + user.following;
+  const following = document.createElement("p");
+  following.textContent = "Following: " + user.following;
 
-  profileStats.appendChild(repoCount);
-  profileStats.appendChild(followerCount);
-  profileStats.appendChild(followingCount);
+  const profileLink = document.createElement("a");
+  profileLink.href = user.html_url;
+  profileLink.textContent = "Open GitHub profile";
+  profileLink.target = "_blank";
 
-  profileResult.appendChild(profileImage);
-  profileResult.appendChild(profileName);
-  profileResult.appendChild(profileUsername);
-  profileResult.appendChild(profileBio);
-  profileResult.appendChild(profileStats);
+  profileResult.appendChild(image);
+  profileResult.appendChild(name);
+  profileResult.appendChild(username);
+  profileResult.appendChild(bio);
+  profileResult.appendChild(location);
+  profileResult.appendChild(repositories);
+  profileResult.appendChild(followers);
+  profileResult.appendChild(following);
+  profileResult.appendChild(profileLink);
 }
