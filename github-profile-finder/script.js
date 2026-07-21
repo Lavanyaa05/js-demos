@@ -13,7 +13,8 @@ searchForm.addEventListener("submit", function (event) {
     return;
   }
 
-  profileMessage.textContent = "Loading profile data...";
+  profileMessage.textContent = "Loading profile...";
+  profileResult.innerHTML = "";
 
   fetch("https://api.github.com/users/" + username)
     .then(function (response) {
@@ -25,11 +26,38 @@ searchForm.addEventListener("submit", function (event) {
     })
     .then(function (user) {
       console.log(user);
+      showBasicProfile(user);
 
-      profileMessage.textContent =
-        "Profile data loaded. Check the browser console.";
+      profileMessage.textContent = "Profile loaded.";
     })
     .catch(function (error) {
       profileMessage.textContent = error.message;
+
+      profileResult.innerHTML =
+        '<div class="profile-placeholder">No profile to display.</div>';
     });
 });
+
+function showBasicProfile(user) {
+  const profileImage = document.createElement("img");
+  profileImage.src = user.avatar_url;
+  profileImage.alt = user.login + " profile picture";
+  profileImage.width = 120;
+  profileImage.height = 120;
+  profileImage.style.borderRadius = "50%";
+
+  const profileName = document.createElement("h2");
+
+  if (user.name) {
+    profileName.textContent = user.name;
+  } else {
+    profileName.textContent = user.login;
+  }
+
+  const profileUsername = document.createElement("p");
+  profileUsername.textContent = "@" + user.login;
+
+  profileResult.appendChild(profileImage);
+  profileResult.appendChild(profileName);
+  profileResult.appendChild(profileUsername);
+}
